@@ -2,18 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+  <meta name="theme-color" content="#04145A" />
   <title>Aureva</title>
 
   <!-- Pinterest domain verification -->
   <meta name="p:domain_verify" content="06282d6d90c6e14e365171d7c975a611"/>
 
-  <!-- Website icon (favicon + social previews) -->
-  <link rel="icon" type="image/png" href="https://www.image2url.com/r2/default/images/1782142746173-3f8e50c4-2be4-418e-8dc6-aef7ac29449a.png" />
-  <link rel="apple-touch-icon" href="https://www.image2url.com/r2/default/images/1782142746173-3f8e50c4-2be4-418e-8dc6-aef7ac29449a.png" />
+  <!-- Favicon set (replace with generated files when ready) -->
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+
+  <!-- Social preview -->
   <meta property="og:image" content="https://www.image2url.com/r2/default/images/1782142746173-3f8e50c4-2be4-418e-8dc6-aef7ac29449a.png" />
 
-  <!-- Preload images to eliminate loading stagger -->
+  <!-- Preload images -->
   <link rel="preload" as="image" href="https://www.image2url.com/r2/default/images/1782142496670-b711f69a-871e-4989-b696-a15da9ef0fb7.png" />
   <link rel="preload" as="image" href="https://www.image2url.com/r2/default/images/1782142746173-3f8e50c4-2be4-418e-8dc6-aef7ac29449a.png" />
 
@@ -22,12 +27,17 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    html {
+      scroll-behavior: smooth;
+      overscroll-behavior: none; /* kill white flash on over-scroll */
+    }
     body {
       background: #010a1f;
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
       display: flex; justify-content: center; align-items: flex-start;
       min-height: 100vh;
       -webkit-font-smoothing: antialiased;
+      overscroll-behavior: none;
       animation: pageFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
     }
     @keyframes pageFadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -43,6 +53,7 @@
       border-radius: 0 0 28px 28px;
       overflow: hidden;
       position: relative;
+      will-change: background-position; /* GPU acceleration */
     }
     @keyframes gradientShift {
       0% { background-position: 0% 0%; }
@@ -138,6 +149,7 @@
       cursor: pointer; border-bottom: 2px solid transparent;
       transition: color 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
       text-transform: uppercase; outline: none;
+      -webkit-tap-highlight-color: transparent;
     }
     .tab-btn:hover { color: rgba(255, 255, 255, 0.8); transform: translateY(-1px); }
     .tab-btn.active { color: rgba(255, 255, 255, 1); border-bottom-color: rgba(255, 255, 255, 0.7); font-weight: 500; transform: none; }
@@ -161,6 +173,7 @@
       color: rgba(255, 255, 255, 0.85); font-size: 1.3rem;
       text-decoration: none;
       transition: background 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s;
+      -webkit-tap-highlight-color: transparent;
     }
     .social-link:hover { background: rgba(255, 255, 255, 0.15); transform: translateY(-3px); color: white; }
 
@@ -191,7 +204,7 @@
     .newsletter button:hover { background: rgba(255, 255, 255, 0.22); transform: scale(1.02); }
     .newsletter button:active { transform: scale(0.98); }
 
-    /* Success message style */
+    /* Success message */
     .form-success {
       display: none;
       color: white;
@@ -278,13 +291,8 @@
         border-radius: 0;
         animation: none;
       }
-      /* Soften grain on desktop */
-      .grain-overlay {
-        opacity: 0.45;
-      }
-      .grain-overlay::after {
-        opacity: 0.5;
-      }
+      .grain-overlay { opacity: 0.45; }
+      .grain-overlay::after { opacity: 0.5; }
       .header {
         width: 100vw;
         margin-left: calc(-50vw + 50%);
@@ -295,16 +303,10 @@
         -webkit-mask-image: linear-gradient(to bottom, black 0%, black 70%, transparent 100%);
         mask-image: linear-gradient(to bottom, black 0%, black 70%, transparent 100%);
       }
-      .profile-section,
-      .spacer,
-      .tabs,
-      .tab-container,
-      .footer {
+      .profile-section, .spacer, .tabs, .tab-container, .footer {
         max-width: 960px;
-        margin-left: auto;
-        margin-right: auto;
-        padding-left: 24px;
-        padding-right: 24px;
+        margin-left: auto; margin-right: auto;
+        padding-left: 24px; padding-right: 24px;
       }
       .product-grid { grid-template-columns: repeat(4, 1fr); }
       .brand-name { font-size: 2.4rem; }
@@ -330,8 +332,8 @@
     <div class="tab-container">
       <div class="tab-content active" id="links">
         <div class="social-links">
-          <a href="https://www.tiktok.com/@aurevafinds" class="social-link" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
-          <a href="https://www.pinterest.com/aurevafind" class="social-link" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+          <a href="https://www.tiktok.com/@aurevafinds" class="social-link" aria-label="TikTok" target="_blank"><i class="fab fa-tiktok"></i></a>
+          <a href="https://www.pinterest.com/aurevafind" class="social-link" aria-label="Pinterest" target="_blank"><i class="fab fa-pinterest-p"></i></a>
           <a href="#" class="social-link" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
         </div>
         <div class="newsletter" id="newsletter-box">
@@ -364,21 +366,26 @@
   </div>
 
   <script>
-    // Smooth tab switching
+    // ===== Tab switching =====
     const tabBtns = document.querySelectorAll('.tab-btn');
     const tabContents = document.querySelectorAll('.tab-content');
+
     tabBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const tabId = btn.dataset.tab;
-        if (btn.classList.contains('active')) return;
+      btn.addEventListener('click', function() {
+        const tabId = this.dataset.tab;
+        if (this.classList.contains('active')) return;
+
+        // Remove active from all buttons and hide all contents
         tabBtns.forEach(b => b.classList.remove('active'));
         tabContents.forEach(c => c.classList.remove('active'));
-        btn.classList.add('active');
+
+        // Activate clicked button and corresponding content
+        this.classList.add('active');
         document.getElementById(tabId).classList.add('active');
       });
     });
 
-    // 🔒 Fetch products securely via your Netlify function
+    // ===== Product loader (secure via Netlify function) =====
     async function loadProducts() {
       const grid = document.getElementById('product-grid');
       try {
@@ -389,7 +396,10 @@
         renderProducts(products);
       } catch (err) {
         console.error('Product load error:', err);
-        grid.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; padding: 30px 20px; color: rgba(255,255,255,0.6);"><p>🛒 Products coming soon</p><small style="color: rgba(255,255,255,0.35); font-size:0.75rem;">${err.message}</small></div>`;
+        grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:30px 20px;color:rgba(255,255,255,0.6);">
+          <p>🛒 Products coming soon</p>
+          <small style="color:rgba(255,255,255,0.35);font-size:0.75rem;">${err.message}</small>
+        </div>`;
       }
     }
 
@@ -402,7 +412,7 @@
         const link = p.link || '#';
         const delay = i * 0.08;
         return `
-          <div class="product-card" style="animation-delay: ${delay}s;">
+          <div class="product-card" style="animation-delay:${delay}s;">
             <img src="${image || fallback}" alt="${name}" class="product-image" loading="lazy"
                  onerror="this.onerror=null; this.src='${fallback}';" />
             <div class="product-info">
@@ -416,16 +426,6 @@
       }).join('');
     }
 
-    // ===== NEW: Ajax form submission (stays on page) =====
+    // ===== Newsletter Ajax =====
     const form = document.getElementById('newsletter-form');
-    const formWrapper = document.getElementById('newsletter-form-wrapper');
-    const successMessage = document.getElementById('newsletter-success');
-
-    form.addEventListener('submit', async function(e) {
-      e.preventDefault(); // stop the redirect
-      const email = form.querySelector('input[name="email"]').value;
-      try {
-        const response = await fetch(form.action, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: new URLSearchParams({ email }).
+    const formWrapper = document.getElementById('newsl
