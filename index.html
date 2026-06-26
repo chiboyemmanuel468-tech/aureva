@@ -191,6 +191,16 @@
     .newsletter button:hover { background: rgba(255, 255, 255, 0.22); transform: scale(1.02); }
     .newsletter button:active { transform: scale(0.98); }
 
+    /* Success message style */
+    .form-success {
+      display: none;
+      color: white;
+      font-weight: 400;
+      font-size: 0.9rem;
+      padding: 20px;
+      animation: fadeIn 0.4s ease;
+    }
+
     /* Product grid */
     .product-grid {
       display: grid;
@@ -320,18 +330,22 @@
     <div class="tab-container">
       <div class="tab-content active" id="links">
         <div class="social-links">
-          <!-- Replace # with your real social URLs -->
-          <a href="#" class="social-link" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
-          <a href="#" class="social-link" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+          <a href="https://www.tiktok.com/@aurevafinds" class="social-link" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+          <a href="https://www.pinterest.com/aurevafind" class="social-link" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
           <a href="#" class="social-link" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
         </div>
-        <div class="newsletter">
-          <h3>Stay in the loop</h3>
-          <p>Drop your email for exclusive kitchen finds.</p>
-          <form action="https://formspree.io/f/mreweeaa" method="POST">
-            <input type="email" name="email" placeholder="Your email address" required />
-            <button type="submit">Subscribe</button>
-          </form>
+        <div class="newsletter" id="newsletter-box">
+          <div id="newsletter-form-wrapper">
+            <h3>Stay in the loop</h3>
+            <p>Drop your email for exclusive kitchen finds.</p>
+            <form id="newsletter-form" action="https://formspree.io/f/mreweeaa" method="POST">
+              <input type="email" name="email" placeholder="Your email address" required />
+              <button type="submit">Subscribe</button>
+            </form>
+          </div>
+          <div class="form-success" id="newsletter-success">
+            ✨ You're in! Thanks for subscribing.
+          </div>
         </div>
       </div>
       <div class="tab-content" id="products">
@@ -402,7 +416,16 @@
       }).join('');
     }
 
-    loadProducts();
-  </script>
-</body>
-    </html>
+    // ===== NEW: Ajax form submission (stays on page) =====
+    const form = document.getElementById('newsletter-form');
+    const formWrapper = document.getElementById('newsletter-form-wrapper');
+    const successMessage = document.getElementById('newsletter-success');
+
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault(); // stop the redirect
+      const email = form.querySelector('input[name="email"]').value;
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({ email }).
