@@ -28,7 +28,7 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html {
-      background: #04145A; /* 🔥 FIX: prevents white flash on over-scroll */
+      background: #04145A; /* prevents white flash on over-scroll */
       scroll-behavior: smooth;
       overscroll-behavior-y: none;
     }
@@ -152,6 +152,7 @@
       transition: color 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
       text-transform: uppercase; outline: none;
       -webkit-tap-highlight-color: transparent;
+      user-select: none;
     }
     .tab-btn:hover { color: rgba(255, 255, 255, 0.8); transform: translateY(-1px); }
     .tab-btn.active { color: rgba(255, 255, 255, 1); border-bottom-color: rgba(255, 255, 255, 0.7); font-weight: 500; transform: none; }
@@ -161,7 +162,6 @@
       display: none;
       padding: 0 24px 80px;
       opacity: 0;
-      content-visibility: auto; /* performance boost */
     }
     .tab-content.active {
       display: block;
@@ -329,8 +329,9 @@
     </div>
     <div class="spacer"></div>
     <div class="tabs">
-      <button class="tab-btn active" data-tab="links">Links</button>
-      <button class="tab-btn" data-tab="products">Shop</button>
+      <!-- 🔥 Inline onclick – guaranteed to work -->
+      <button class="tab-btn active" data-tab="links" onclick="switchTab('links')">Links</button>
+      <button class="tab-btn" data-tab="products" onclick="switchTab('products')">Shop</button>
     </div>
     <div class="tab-container">
       <div class="tab-content active" id="links">
@@ -369,29 +370,24 @@
   </div>
 
   <script>
-    // ===== TAB SWITCHING – simple and reliable =====
-    (function() {
-      const tabs = document.querySelectorAll('.tab-btn');
-      const contents = document.querySelectorAll('.tab-content');
-
-      tabs.forEach(function(btn) {
-        btn.addEventListener('click', function(e) {
-          const targetId = this.getAttribute('data-tab');
-
-          // Don't do anything if this tab is already active
-          if (this.classList.contains('active')) return;
-
-          // Deactivate all tabs
-          tabs.forEach(t => t.classList.remove('active'));
-          contents.forEach(c => c.classList.remove('active'));
-
-          // Activate clicked tab
-          this.classList.add('active');
-          const target = document.getElementById(targetId);
-          if (target) target.classList.add('active');
-        });
+    // ===== SIMPLE, RELIABLE TAB SWITCHING =====
+    function switchTab(tabId) {
+      // Deactivate all buttons and all content
+      document.querySelectorAll('.tab-btn').forEach(function(b) {
+        b.classList.remove('active');
       });
-    })();
+      document.querySelectorAll('.tab-content').forEach(function(c) {
+        c.classList.remove('active');
+      });
+
+      // Activate the clicked button (find by data-tab attribute)
+      var btn = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
+      if (btn) btn.classList.add('active');
+
+      // Show the correct content
+      var content = document.getElementById(tabId);
+      if (content) content.classList.add('active');
+    }
 
     // ===== Product loader (secure via Netlify function) =====
     async function loadProducts() {
@@ -428,4 +424,38 @@
                 Shop now <i class="fas fa-arrow-right"></i>
               </a>
             </div>
-   
+          </div>
+        `;
+      }).join('');
+    }
+    // ===== Newsletter Ajax =====
+    const form = document.getElementById('newsletter-form');
+    const formWrapper = document.getElementById('newsletter-form-wrapper');
+    const successMessage = document.getElementById('newsletter-success');
+
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const email = form.querySelector('input[name="email"]').value;
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({ email }).toString()
+        });
+        if (response.ok) {
+          formWrapper.style.display = 'none';
+          successMessage.style.display = 'block';
+        } else {
+          alert('Something went wrong. Please try again.');
+        }
+      } catch (error) {
+        alert('Network error. Please check your connection.');
+      }
+    });
+
+    // Start product loading
+    loadProducts();
+  </script>
+</body>
+</html>
+```
