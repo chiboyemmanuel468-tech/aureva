@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Aureva</title>
 
+  <!-- Pinterest domain verification -->
+  <meta name="p:domain_verify" content="06282d6d90c6e14e365171d7c975a611"/>
+
   <!-- Preload images to eliminate loading stagger -->
   <link rel="preload" as="image" href="https://www.image2url.com/r2/default/images/1782142496670-b711f69a-871e-4989-b696-a15da9ef0fb7.png" />
   <link rel="preload" as="image" href="https://www.image2url.com/r2/default/images/1782142746173-3f8e50c4-2be4-418e-8dc6-aef7ac29449a.png" />
@@ -26,7 +29,7 @@
 
     .page {
       width: 100%;
-      max-width: 480px;          /* mobile first */
+      max-width: 480px;
       min-height: 100vh;
       margin: 0 auto;
       background: linear-gradient(180deg, #3730A3 0%, #244D7D 40%, #04145A 80%, #010314 100%);
@@ -234,25 +237,22 @@
     }
 
     /* ===== RESPONSIVE BREAKPOINTS ===== */
-    /* Larger phones: 2 columns */
     @media (min-width: 480px) {
       .page { max-width: 480px; }
       .product-grid { grid-template-columns: repeat(2, 1fr); }
     }
-    /* Tablets: 3 columns, wider container */
     @media (min-width: 768px) {
       .page { max-width: 720px; border-radius: 0 0 36px 36px; }
       .product-grid { grid-template-columns: repeat(3, 1fr); }
       .brand-name { font-size: 2.2rem; }
     }
-    /* Desktop: header goes full‑width, content stays centered */
     @media (min-width: 1024px) {
       body {
         background: linear-gradient(180deg, #3730A3 0%, #244D7D 40%, #04145A 80%, #010314 100%);
       }
       .page {
-        max-width: none;            /* remove the card constraint */
-        background: transparent;   /* body already has the gradient */
+        max-width: none;
+        background: transparent;
         border-radius: 0;
       }
       .header {
@@ -261,7 +261,6 @@
         min-height: 250px;
         max-height: 500px;
       }
-      /* Center the rest of the content */
       .profile-section,
       .spacer,
       .tabs,
@@ -341,7 +340,7 @@
       });
     });
 
-    // 🔒 Fetch products securely via your Netlify function (no token exposed)
+    // 🔒 Fetch products securely via your Netlify function
     async function loadProducts() {
       const grid = document.getElementById('product-grid');
       try {
@@ -382,4 +381,4 @@
     loadProducts();
   </script>
 </body>
-          </html>
+        </html>
